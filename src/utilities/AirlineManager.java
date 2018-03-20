@@ -3,9 +3,9 @@ package utilities;
 import java.util.ArrayList;
 import java.util.Map;
 
+import se.lexicon.model.Airplane;
+import se.lexicon.model.Booking;
 import se.lexicon.model.FoodItem;
-import temp.Airplane;
-import temp.Booking;
 
 public class AirlineManager {
 
@@ -35,7 +35,7 @@ public class AirlineManager {
 
 	/*
 	 * Returns true if an airplane (for which the toString method returns a String
-	 * equal to the given airplane argument) has at least one availiable seat of
+	 * equal to the given airplane argument) has at least one available seat of
 	 * seatType. Returns false if no such free seat exists or if no such airplane is
 	 * found.
 	 */
@@ -86,8 +86,8 @@ public class AirlineManager {
 						cost += entry.getKey().getPrice() * entry.getValue();
 					}
 					
-					Booking newBooking = new Booking(bookings.size(), name, airplanes.get(i).getLocation,
-							airplanes.get(i).getDestination, cost, foodMap, bookedSeat);
+					Booking newBooking = new Booking(bookings.size(), name, airplanes.get(i).getLocation(),
+							airplanes.get(i).getDestination(), cost, foodMap, bookedSeat);
 					bookings.add(newBooking);
 					return bookings.size() - 1; // -1 because a new element is added to bookings in the row above
 				}
@@ -111,7 +111,7 @@ public class AirlineManager {
 	}
 
 	/*
-	 * Returns an array of the FoodItems for the menu cooresponding to seatType.
+	 * Returns an array of the FoodItems for the menu corresponding to seatType.
 	 */
 	public FoodItem[] getMenu(SeatType seatType) {
 		if(seatType == SeatType.BUISNESS_SEAT) {
