@@ -2,9 +2,9 @@ package se.lexicon.model;
 
 import java.util.concurrent.Callable;
 
-public class Airplane implements Callable {
+public class Airplane{
 	
-	private boolean isflying;
+	private boolean isFlying;
 	
 	private int maxBussinessClassSeat;
 	private int maxEconomyClassSeat;
@@ -30,14 +30,20 @@ public class Airplane implements Callable {
 		this.destination = destination;
 		noOfReservedBussinessSeats=0;
 		noOfReservedEconomySeats=0;
+		isFlying = false;
 	}
 
 	
 	public boolean isIsflying() {
-		return isflying;
+		return isFlying;
 	}
 
+	public String getPlaneName() {
+		return planeName;
+	}
 	
+
+
 	@Override
 	public String toString() {
 		return "Airplane [planeName=" + planeName + ", location=" + location + ", destination=" + destination + "]";
@@ -65,6 +71,7 @@ public class Airplane implements Callable {
 		
 	   {
 			noOfReservedBussinessSeats++;
+			takeFlightIfThePlaneIsFull();
 			return noOfReservedBussinessSeats;
 		}
 		
@@ -73,10 +80,11 @@ public class Airplane implements Callable {
 			if(seatType == SeatType.Economy_Seat && noOfAvaiableEconomySeats<maxEconomyClassSeat) 
 			{
 					noOfReservedEconomySeats++;
+					takeFlightIfThePlaneIsFull();
 					return noOfReservedEconomySeats;
 			}
 			
-	
+
 		else return -1;
 		
 	}
@@ -106,15 +114,36 @@ public class Airplane implements Callable {
 	
 	
 	/* Threading methods */
-	public void takeFlight() {
+	public void takeFlightIfThePlaneIsFull() {
+		if (noOfReservedBussinessSeats==maxBussinessClassSeat  &&  noOfReservedEconomySeats==maxEconomyClassSeat) {
+	        isFlying = true;
+	        Airplane thisAirplane = this;
+	       
+	        Thread thread1 = new Thread(() -> {
+	            System.out.println(thisAirplane.getPlaneName() + " takes off");
+	            System.out.println(thisAirplane.getPlaneName() + " is flying");
+	            try {
+					Thread.sleep(120000);
+				} catch (InterruptedException e) {
+					// Ignore
+				}
+	            synchronized(thisAirplane) {
+	            	thisAirplane.arrive();
+	            }
+	            System.out.println(thisAirplane.getPlaneName() + " has arrived");
+	            System.out.println(thisAirplane.getPlaneName() + " has refueled");
+	            });
+	        thread1.start();
+			
+			
+		}
 		
 	}
 
-	@Override
-	public Object call() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+	private void arrive() {
+		noOfReservedBussinessSeats=0;
+		noOfReservedEconomySeats=0;
+		isFlying = false;
 	}
-	
-	
 }
