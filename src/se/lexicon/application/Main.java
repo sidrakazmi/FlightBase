@@ -1,6 +1,5 @@
 package se.lexicon.application;
 
-import se.lexicon.ui.SystemUI;
 import utilities.AirlineManager;
 
 public class Main {
