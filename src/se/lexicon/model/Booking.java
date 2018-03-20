@@ -33,6 +33,11 @@ public class Booking {
 				+ destination + ", airplaneName=" + airplaneName + ", cost=" + cost + ", seatNo=" + seatNo
 				+ ", seatType=" + seatType + "]";
 	}
+
+	public double getCost() {
+		return cost;
+	}
+	
 	
 	
 	
