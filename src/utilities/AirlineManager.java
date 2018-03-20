@@ -42,7 +42,7 @@ public class AirlineManager {
 	public boolean hasAvailibleSeat(String airplane, SeatType seatType) {
 
 		for (int i = 0; i < airplanes.size(); i++) {
-			if (airplane.equals(airplanes.get(i))) {
+			if (airplane.equals(airplanes.get(i).toString())) {
 				if (airplanes.get(i).getNumberOfAvaiableSeats(seatType) > 0) {
 					return true;
 				}
