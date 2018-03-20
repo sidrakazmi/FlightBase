@@ -11,7 +11,10 @@ import javax.swing.JTextField;
 import se.lexicon.exception.AirlineAlreadyExistsException;
 import se.lexicon.exception.AirlineIsFullException;
 import se.lexicon.exception.AirlineNotFoundException;
+import se.lexicon.model.Airplane;
+import se.lexicon.model.Booking;
 import se.lexicon.model.FlightManager;
+import utilities.AirlineManager;
 
 
 
@@ -34,7 +37,7 @@ public class UI extends AirlineManager {
 	protected String airlineName = null;
 	protected String theAirlineName = null;
 	protected Booking reservation = null;
-	protected Airline airline = null;
+	protected AirlineManager airlineManager = null;
 	protected Main menu = new Main();
 
 	public UI() {
@@ -114,9 +117,10 @@ public class UI extends AirlineManager {
 
 
 
+	@Override
 	private void getProfit() {
 
-		System.out.println("The total profit is: " + airline.getProfit());
+		System.out.println("The total profit is: " + airlineManager.getProfit());
 	}
 
 
@@ -131,11 +135,11 @@ public class UI extends AirlineManager {
 			theAirlineName = JOptionPane.showInputDialog("What's the name of the airline?");
 			//capacity = 10 - 1;
 
-			for(Airplane airplane : airline.getAirplaneList())
+			for(Airplane airplane : airlineManager.getAirplaneList())
 			{
 				if(airplane.getName().equalsIgnoreCase(theAirlineName)) {
 
-					airline.getAirplaneList().indexOf(airplane);
+					airlineManager.getAirplaneList().indexOf(airplane);
 				}
 			}
 
@@ -155,10 +159,10 @@ public class UI extends AirlineManager {
 			theAirlineName = JOptionPane.showInputDialog("What's the name of the airline you would like to remove?");
 			//capacity = 10 - 1;
 
-			for(Airplane airplane : airline.getAirplaneList())
+			for(Airplane airplane : airlineManager.getAirplaneList())
 			{
 				if(airplane.getName().equalsIgnoreCase(theAirlineName)) {
-					boolean isRemoved = airline.removeAirplane( airline.getAirplaneList().indexOf(airplane) );
+					boolean isRemoved = airlineManager.removeAirplane( airlineManager.getAirplaneList().indexOf(airplane) );
 					if (isRemoved = false) {
 						System.out.println("Airline does not exist");
 					}
@@ -203,10 +207,10 @@ public class UI extends AirlineManager {
 
 			// Name, Location, Destination in combobox
 
-			ArrayList<String> availableFlights = airline.getAvailibleFlights();
+			ArrayList<String> availableFlights = airlineManager.getAvailibleFlights();
 
 
-			for(Airplane airplane : airline.getAirplaneList())
+			for(Airplane airplane : airlineManager.getAirplaneList())
 			{
 				if (airplane.flying = false) {
 
@@ -245,7 +249,7 @@ public class UI extends AirlineManager {
 		//	int option = new JOptionPane().showConfirmDialog(null, message, "Seat", JOptionPane.OK_CANCEL_OPTION);
 			int option = JOptionPane.showConfirmDialog(null, message, "Reserve seat", JOptionPane.OK_CANCEL_OPTION);
 		//	reservation = new Booking(name.getText(), cmbLocations.getSelectedItem(), cmbDestinations.getSelectedItem(), cmbClass.getSelectedItem(), cost , map);
-			super.addReservation(name.getText(), cmbLocations.getSelectedItem(), cmbDestinations.getSelectedItem(), cmbClass.getSelectedItem(), airline.getSeatPrice(SeatType.valueOf(cmbClass.getSelectedItem().toUpperCase(Locale.ENGLISH)) ) , map);
+			super.addReservation(name.getText(), cmbLocations.getSelectedItem(), cmbDestinations.getSelectedItem(), cmbClass.getSelectedItem(), airlineManager.getSeatPrice(SeatType.valueOf(cmbClass.getSelectedItem().toUpperCase(Locale.ENGLISH)) ) , map);
 		//	super.reserveSeat(reservation, theAirlineName.getText());
 		}
 		catch (AirlineIsFullException e)
@@ -267,11 +271,11 @@ public class UI extends AirlineManager {
 
 	public void orderFood() {
 
-		String[] foodArray = airline.getFoodArray();
+		String[] foodArray = airlineManager.getFoodArray();
 		JTextField foodName = new JTextField();
 		JTextField foodQuantity = new JTextField();
 		String foodString;
-			for (Food food : airline.getFoodMap().values()) {
+			for (Food food : airlineManager.getFoodMap().values()) {
 		//		JTextField food.getName() = new JTextField;
 
 
@@ -288,12 +292,12 @@ public class UI extends AirlineManager {
 
 
 
-			Object[] message = new Object[airline.getFoodArray().length];
+			Object[] message = new Object[airlineManager.getFoodArray().length];
 
 			int i = 0;
-			for (int i = 0; i < airline.getFoodArray().length; i++){
+			for (int i = 0; i < airlineManager.getFoodArray().length; i++){
 				foodString  = food.getName();
-				message[i] = airline.getFoodArray()[i].getName() + "," + " " + foodString;
+				message[i] = airlineManager.getFoodArray()[i].getName() + "," + " " + foodString;
 			}
 
 
