@@ -1,6 +1,8 @@
 package se.lexicon.model;
 
-import java.util.HashMap;
+import java.util.Map;
+
+import utilities.SeatType;
 
 public class Booking {
 	private int id;
@@ -11,10 +13,10 @@ public class Booking {
 	private double cost;
 	private int seatNo;
 	private SeatType seatType;
-	public static HashMap< FoodItem, Integer> item;
+	public static Map< FoodItem, Integer> foodItems;
 	
 	public Booking(int id, String passengerName, String location, String destination, String airplaneName, double cost,
-			int seatNo, SeatType seatType) {
+			int seatNo, SeatType seatType, Map<FoodItem, Integer> foodMap) {
 		
 		this.id = id;
 		this.passengerName = passengerName;
@@ -24,7 +26,7 @@ public class Booking {
 		this.cost = cost;
 		this.seatNo = seatNo;
 		this.seatType = seatType;
-		item = new HashMap<FoodItem, Integer>();
+		foodItems = foodMap;
 	}
 	
 	@Override
