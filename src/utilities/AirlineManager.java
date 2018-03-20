@@ -75,7 +75,7 @@ public class AirlineManager {
 	public int addReservation(String airplane, String name, SeatType seatType, Map<FoodItem, Integer> foodMap) {
 		int bookedSeat;
 		for (int i = 0; i < airplanes.size(); i++) {
-			if (airplane.equals(airplanes.get(i))) {
+			if (airplane.equals(airplanes.get(i).toString())) {
 				bookedSeat = airplanes.get(i).bookSeat(seatType);
 
 				// bookedSeat being negative means that there was no such available seat on the
