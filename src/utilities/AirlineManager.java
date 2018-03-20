@@ -43,7 +43,7 @@ public class AirlineManager {
 
 		for (int i = 0; i < airplanes.size(); i++) {
 			if (airplane.equals(airplanes.get(i))) {
-				if (airplanes.get(i).getNumberOfAvaiableSeats(SeatType.BUISNESS_SEAT) > 0) {
+				if (airplanes.get(i).getNumberOfAvaiableSeats(seatType) > 0) {
 					return true;
 				}
 			}
@@ -67,8 +67,10 @@ public class AirlineManager {
 
 	/*
 	 * Attempts to add a reservation for one airplanes for which toString returns a
-	 * String equal to the given first String argument. Returns Booking ID if
-	 * successful. Returns a negative number if the reservation failed.
+	 * String equal to the given first String argument. The foodMap parameter should
+	 * consist of a map between FoodItems and the desired number of that FoodItem.
+	 * Returns Booking ID if successful. Returns a negative number if the
+	 * reservation failed.
 	 */
 	public int addReservation(String airplane, String name, SeatType seatType, Map<FoodItem, Integer> foodMap) {
 		int bookedSeat;
@@ -82,12 +84,13 @@ public class AirlineManager {
 					return -1;
 				} else {
 					double cost = getSeatPrice(seatType);
-					for(Map.Entry<FoodItem, Integer> entry : foodMap.entrySet()) {
+					for (Map.Entry<FoodItem, Integer> entry : foodMap.entrySet()) {
 						cost += entry.getKey().getPrice() * entry.getValue();
 					}
-					
+
 					Booking newBooking = new Booking(bookings.size(), name, airplanes.get(i).getLocation(),
-							airplanes.get(i).getDestination(), airplanes.get(i).getPlaneName(), cost, bookedSeat, seatType, foodMap);
+							airplanes.get(i).getDestination(), airplanes.get(i).getPlaneName(), cost, bookedSeat,
+							seatType, foodMap);
 					bookings.add(newBooking);
 					return bookings.size() - 1; // -1 because a new element is added to bookings in the row above
 				}
@@ -102,8 +105,8 @@ public class AirlineManager {
 	 * found.
 	 */
 	public boolean removeReservation(int bookingID) {
-		//booking ID is one larger than the index for the booking.
-		if(bookingID < 0 || bookingID > bookings.size() + 1) {
+		// booking ID is one larger than the index for the booking.
+		if (bookingID < 0 || bookingID > bookings.size() + 1) {
 			return false;
 		}
 		bookings.remove(bookingID - 1);
@@ -114,10 +117,9 @@ public class AirlineManager {
 	 * Returns an array of the FoodItems for the menu corresponding to seatType.
 	 */
 	public FoodItem[] getMenu(SeatType seatType) {
-		if(seatType == SeatType.BUISNESS_SEAT) {
+		if (seatType == SeatType.BUISNESS_SEAT) {
 			return Menus.getBusinessMenuCopy();
-		}
-		else {
+		} else {
 			return Menus.getEconomyMenuCopy();
 		}
 	}
@@ -127,18 +129,18 @@ public class AirlineManager {
 	 */
 	public double getIncome() {
 		double income = 0;
-		for(Booking booking : bookings) {
+		for (Booking booking : bookings) {
 			income += booking.getCost();
 		}
 		return income;
 	}
-	
+
 	/*
 	 * Returns the profit made by the airline.
 	 */
 	public double getProfit() {
 		double profit = getIncome();
-		profit = profit * 0.3; //30% of the income is profit
+		profit = profit * 0.3; // 30% of the income is profit
 		return profit;
 	}
 
@@ -146,11 +148,7 @@ public class AirlineManager {
 	 * Returns the price of a seat corresponding to seatType.
 	 */
 	public double getSeatPrice(SeatType seatType) {
-		if (seatType == SeatType.BUISNESS_SEAT) {
-			return 20000;
-		} else {
-			return 5000;
-		}
+		return SeatPrices.getPricesForSeatType(seatType);
 	}
 
 }

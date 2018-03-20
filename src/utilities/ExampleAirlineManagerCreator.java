@@ -14,7 +14,7 @@ public class ExampleAirlineManagerCreator {
         AirlineManager airlineManager = new AirlineManager();
         airlineManager.addAirplane(airplane1);
         airlineManager.addAirplane(airplane2);
-        airlineManager.addAirplane(airplane3)
+        airlineManager.addAirplane(airplane3);
         
         return airlineManager;
 	}

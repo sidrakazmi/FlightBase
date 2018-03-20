@@ -1,8 +1,6 @@
 package se.lexicon.application;
 
-import se.lexicon.model.Airplane;
 import se.lexicon.ui.UI;
-import utilities.AirlineManager;
 import utilities.ExampleAirlineManagerCreator;
 
 public class Main {
