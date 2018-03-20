@@ -1,6 +1,6 @@
 package se.lexicon.model;
 
-import java.util.concurrent.Callable;
+import utilities.SeatType;
 
 public class Airplane{
 	
@@ -42,21 +42,29 @@ public class Airplane{
 		return planeName;
 	}
 	
+	public String getLocation() {
+		return location;
+	}
+
+
+	public String getDestination() {
+		return destination;
+	}
 
 
 	@Override
 	public String toString() {
-		return "Airplane [planeName=" + planeName + ", location=" + location + ", destination=" + destination + "]";
+		return planeName + ": " + location + "->" + destination;
 	}
 
 	
-	public int AvaiableSeats(SeatType seatType) {
-		if(seatType == SeatType.Business_Seat) {
+	public int getNumberOfAvaiableSeats(SeatType seatType) {
+		if(seatType == SeatType.BUISNESS_SEAT) {
 			noOfAvaiableBussinessSeats= maxBussinessClassSeat - noOfReservedBussinessSeats;
 			return noOfAvaiableBussinessSeats;
 		}
 		else {
-			if(seatType == SeatType.Economy_Seat) {
+			if(seatType == SeatType.ECONOMY_SEAT) {
 			noOfAvaiableEconomySeats= maxEconomyClassSeat - noOfReservedEconomySeats;
 			return noOfAvaiableEconomySeats;
 		}
@@ -67,7 +75,7 @@ public class Airplane{
 
 	public int bookSeat(SeatType seatType) {
 		
-		if(seatType == SeatType.Business_Seat && noOfAvaiableBussinessSeats<maxBussinessClassSeat) 
+		if(seatType == SeatType.BUISNESS_SEAT && noOfAvaiableBussinessSeats<maxBussinessClassSeat) 
 		
 	   {
 			noOfReservedBussinessSeats++;
@@ -77,7 +85,7 @@ public class Airplane{
 		
 		
 		else 
-			if(seatType == SeatType.Economy_Seat && noOfAvaiableEconomySeats<maxEconomyClassSeat) 
+			if(seatType == SeatType.ECONOMY_SEAT && noOfAvaiableEconomySeats<maxEconomyClassSeat) 
 			{
 					noOfReservedEconomySeats++;
 					takeFlightIfThePlaneIsFull();
@@ -92,7 +100,7 @@ public class Airplane{
 
 	
 	public boolean removeSeat(SeatType seatType) {
-		if(seatType == SeatType.Business_Seat && noOfReservedBussinessSeats>0) 
+		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBussinessSeats>0) 
 			
 		   {
 				noOfReservedBussinessSeats--;
@@ -101,7 +109,7 @@ public class Airplane{
 			
 			
 			else 
-				if(seatType == SeatType.Economy_Seat && noOfReservedEconomySeats>0) 
+				if(seatType == SeatType.ECONOMY_SEAT && noOfReservedEconomySeats>0) 
 				{
 						noOfReservedEconomySeats--;
 						return true;

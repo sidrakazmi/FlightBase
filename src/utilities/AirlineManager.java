@@ -43,7 +43,7 @@ public class AirlineManager {
 
 		for (int i = 0; i < airplanes.size(); i++) {
 			if (airplane.equals(airplanes.get(i))) {
-				if (airplanes.get(i).getNoOfFreeSeats(SeatType.BUISNESS_SEAT) > 0) {
+				if (airplanes.get(i).getNumberOfAvaiableSeats(SeatType.BUISNESS_SEAT) > 0) {
 					return true;
 				}
 			}
@@ -57,8 +57,8 @@ public class AirlineManager {
 	public ArrayList<String> getAvailibleFlights() {
 		ArrayList<String> availibleFlightsList = new ArrayList<String>();
 		for (int i = 0; i < airplanes.size(); i++) {
-			if (airplanes.get(i).getNoOfFreeSeats(SeatType.BUISNESS_SEAT) > 0
-					&& airplanes.get(i).getNoOfFreeSeats(SeatType.ECONOMY_SEAT) > 0) {
+			if (airplanes.get(i).getNumberOfAvaiableSeats(SeatType.BUISNESS_SEAT) > 0
+					&& airplanes.get(i).getNumberOfAvaiableSeats(SeatType.ECONOMY_SEAT) > 0) {
 				availibleFlightsList.add(airplanes.get(i).toString());
 			}
 		}
@@ -87,7 +87,7 @@ public class AirlineManager {
 					}
 					
 					Booking newBooking = new Booking(bookings.size(), name, airplanes.get(i).getLocation(),
-							airplanes.get(i).getDestination(), cost, foodMap, bookedSeat);
+							airplanes.get(i).getDestination(), airplanes.get(i).getPlaneName(), cost, bookedSeat, seatType, foodMap);
 					bookings.add(newBooking);
 					return bookings.size() - 1; // -1 because a new element is added to bookings in the row above
 				}
