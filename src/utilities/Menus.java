@@ -2,14 +2,14 @@ package utilities;
 
 import se.lexicon.model.FoodItem;
 
-/*
+/**
  * Two hard coded menus for business and economy class.
  */
 public class Menus {
 	private final static FoodItem[] businessMenu = {new FoodItem("Wine", 200), new FoodItem("Steak", 300), new FoodItem("Salad", 200)};
 	private final static FoodItem[] economyMenu = {new FoodItem("Glass of water", 20), new FoodItem("Bread", 30), new FoodItem("Boiled Potatoes", 40)};
 	
-	/*
+	/**
 	 * Returns a copy of the businessMenu array
 	 */
 	public static FoodItem[] getBusinessMenuCopy() {
@@ -20,7 +20,7 @@ public class Menus {
 		return businessMenuCopy;
 	}
 	
-	/*
+	/**
 	 * Returns a copy of the economyMenu array
 	 */
 	public static FoodItem[] getEconomyMenuCopy() {
