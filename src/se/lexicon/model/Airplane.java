@@ -63,7 +63,7 @@ public class Airplane{
 	 * @param Seat Type: Economy or Business
 	 **/
 	public int getNumberOfAvaiableSeats(SeatType seatType) {
-		if(seatType == SeatType.BUISNESS_SEAT) {
+		if(seatType == SeatType.BUSINESS_SEAT) {
 			int noOfAvaiableBussinessSeats= maxBussinessClassSeat - noOfReservedBussinessSeats;
 			return noOfAvaiableBussinessSeats;
 		}
@@ -83,7 +83,7 @@ public class Airplane{
 	 **/
 	public int bookSeat(SeatType seatType) {
 
-		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBussinessSeats<maxBussinessClassSeat)
+		if(seatType == SeatType.BUSINESS_SEAT && noOfReservedBussinessSeats<maxBussinessClassSeat)
 
 	   {
 			noOfReservedBussinessSeats++;
@@ -112,7 +112,7 @@ public class Airplane{
 	 * @param Seat Type: Economy or Business
 	 **/
 	public boolean removeSeat(SeatType seatType) {
-		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBussinessSeats>0)
+		if(seatType == SeatType.BUSINESS_SEAT && noOfReservedBussinessSeats>0)
 
 		   {
 				noOfReservedBussinessSeats--;

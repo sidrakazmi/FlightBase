@@ -57,8 +57,8 @@ public class AirlineManager {
 	public ArrayList<String> getAvailibleFlights() {
 		ArrayList<String> availibleFlightsList = new ArrayList<String>();
 		for (int i = 0; i < airplanes.size(); i++) {
-			if (airplanes.get(i).getNumberOfAvaiableSeats(SeatType.BUISNESS_SEAT) > 0
-					&& airplanes.get(i).getNumberOfAvaiableSeats(SeatType.ECONOMY_SEAT) > 0) {
+			if (airplanes.get(i).getNumberOfAvaiableSeats(SeatType.BUSINESS_SEAT) > 0
+					|| airplanes.get(i).getNumberOfAvaiableSeats(SeatType.ECONOMY_SEAT) > 0) {
 				availibleFlightsList.add(airplanes.get(i).toString());
 			}
 		}
@@ -117,7 +117,7 @@ public class AirlineManager {
 	 * Returns an array of the FoodItems for the menu corresponding to seatType.
 	 */
 	public FoodItem[] getMenu(SeatType seatType) {
-		if (seatType == SeatType.BUISNESS_SEAT) {
+		if (seatType == SeatType.BUSINESS_SEAT) {
 			return Menus.getBusinessMenuCopy();
 		} else {
 			return Menus.getEconomyMenuCopy();

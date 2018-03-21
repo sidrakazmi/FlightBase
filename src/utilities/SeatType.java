@@ -1,5 +1,5 @@
 package utilities;
 
 public enum SeatType {
-	ECONOMY_SEAT, BUISNESS_SEAT 
+	ECONOMY_SEAT, BUSINESS_SEAT 
 }

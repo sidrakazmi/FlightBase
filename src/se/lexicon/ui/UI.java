@@ -133,6 +133,7 @@ public class UI {
 			String[] currentClass={"Business","Economy"};
 			String selectedFlights;
 			JComboBox<String> cmbClass = new JComboBox<>(currentClass);
+			int option;
 
 
 			for(String airplane : airlineManager.getAvailibleFlights())
@@ -151,9 +152,8 @@ public class UI {
 					"Seat type:", cmbClass
 			};
 			while (choice == true) {
-				int option = JOptionPane.showConfirmDialog(null, message, "Reservation", JOptionPane.OK_CANCEL_OPTION);
+				option = JOptionPane.showConfirmDialog(null, message, "Reservation", JOptionPane.OK_CANCEL_OPTION);
 				if (option == 0) {
-					// Asks if you would like to order food if yes do nothing and continue with the method
 					try {
 						// If name or selected flights box is empty throw an expection and return to the menu
 						if(name.getText().equals(""))
@@ -181,14 +181,28 @@ public class UI {
 			}
 
 			if (String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("BUSINESS")) {
-				seatType = SeatType.BUISNESS_SEAT;
+				seatType = SeatType.BUSINESS_SEAT;
 			}
 			else if(String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("ECONOMY")) {
 				seatType = SeatType.ECONOMY_SEAT;
 			}
 
 
-
+			//Check if the user wants to switch seats if the current seat type is full.
+			selectedFlights = String.valueOf(cmbAvailableFlights.getSelectedItem());
+			if (!airlineManager.hasAvailibleSeat(selectedFlights, seatType)) {
+				if (seatType == SeatType.BUSINESS_SEAT) {
+					option = JOptionPane.showConfirmDialog(null, "The airplane has no free business seats. Would you like to book an economy seat instead?", "No free business seats", JOptionPane.OK_CANCEL_OPTION);
+					seatType = SeatType.ECONOMY_SEAT;
+				}
+				else {
+					option = JOptionPane.showConfirmDialog(null, "The airplane has no free economy seats. Would you like to book an business seat instead?", "No free economy seats", JOptionPane.OK_CANCEL_OPTION);
+					seatType = SeatType.BUSINESS_SEAT;
+				}
+				if (option != 0) {
+					return;
+				}
+			}
 
 
 			// Do you want to order food? YES NO?
@@ -211,13 +225,8 @@ public class UI {
 				return;
 			}
 
-			selectedFlights = String.valueOf(cmbAvailableFlights.getSelectedItem());
 
 			// Confirmation screen
-
-
-			// MESSAGE
-
 			String confirmationMessage = "Name: " + name.getText() + " \n" + "Flight: " + selectedFlights + " \n" + "Seat type: " + seatType.toString() + " \n";
 			double reservationCost = airlineManager.getSeatPrice(seatType);
 			for(FoodItem foodItem : foodMap.keySet()) {
@@ -228,7 +237,7 @@ public class UI {
 			}
 			confirmationMessage += "Cost: " + reservationCost;
 
-			int option = JOptionPane.showConfirmDialog(null, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+			option = JOptionPane.showConfirmDialog(null, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
 
 
 
@@ -243,19 +252,11 @@ public class UI {
 
 
 			// Adds reservation
-
 			int canBeReserved = airlineManager.addReservation(selectedFlights, name.getText(), seatType, foodMap);
 
 
-			if (canBeReserved < 0) {
-				JOptionPane.showMessageDialog(null, "The airline is full");
-				return;
-			}
-			if (canBeReserved >= 0) {
-				//TODO also display the ID number and total cost for the reservation
-				JOptionPane.showMessageDialog(null, "Reservation was added\nThe ID number for your reservation is: " + canBeReserved + "\nCost: " + reservationCost + " SEK", "Receipt", JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
+			JOptionPane.showMessageDialog(null, "Reservation was added\nThe ID number for your reservation is: " + canBeReserved + "\nCost: " + reservationCost + " SEK", "Receipt", JOptionPane.INFORMATION_MESSAGE);
+			return;
 
 
 	}
@@ -272,10 +273,8 @@ public class UI {
 		FoodItem[] foodArray = airlineManager.getMenu(seatType);
 
 		Object[] message = new Object[foodArray.length * 2];
-		JTextField[] foodFieldNames = new JTextField[foodArray.length];
 		for (int i = 0; i < message.length; i+=2){
-			// Divides the index used for foodFieldNames and foodArray with two because the for loop increments with two each time.
-			//foodFieldNames[i/2]  = new JTextField();
+			// Divides the index used for foodArray with two because the for loop increments with two each time.
 			message[i] = foodArray[i/2].getName() + " , " + foodArray[i/2].getPrice() + " SEK";
 			message[i + 1] = new JTextField();
 		}
