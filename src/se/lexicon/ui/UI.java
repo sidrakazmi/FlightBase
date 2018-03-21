@@ -2,8 +2,8 @@ package se.lexicon.ui;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -16,11 +16,7 @@ import utilities.SeatType;
 
 
 
-public class UI extends AirlineManager {
-
-
-
-	static UI conAirHandler = new UI();
+public class UI {
 
 
 	protected int reservationID;
@@ -43,97 +39,82 @@ public class UI extends AirlineManager {
 	public UI() {
 	}
 
-
-	public void callMainMenu(AirlineManager airlineManager)
-	{
-
-		boolean choice = true;
-		this.airlineManager = airlineManager;
-		String[] options = new String[] {"Reservation menu", "Close"};
-		while(choice == true) {
-
-			response = JOptionPane.showOptionDialog(null, "What would menu would you like to enter", "Main menu",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-					null, options, options[0]);
-
-			switch (response) {
-			// Open reservation menu
-			case 0: callReservationMenu();
-			break;
-			// Exit application
-			case 1: choice = false;
-			}
-		}
-
-
-	}
-
-
 	/**
 	 * Reservation menu method
 	 */
-	public void callReservationMenu()
+	public void callMainMenu(AirlineManager airlineManager)
 	{
 
+		this.airlineManager = airlineManager;
 		boolean choice = true;
-		options = new String[] {"Reserve seat", "Remove seat", "TEMP: List passengers", "Get profit", "Go back"};
+		options = new String[] {"Reserve seat", "Remove reservation", "Get income", "Get profit", "Exit"};
 
 		while(choice == true) {
 
 
-			response = JOptionPane.showOptionDialog(null, "What would you like to do?", "Reservation menu",
+			response = JOptionPane.showOptionDialog(null, "What would you like to do?", "Main menu",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 					null, options, options[0]);
 
 			switch (response) {
 			// Calls the reserve method
-			case 0: conAirHandler.addReservation();
+			case 0: addReservation();
 			break;
 			// Remove specific reservation
-			case 1: conAirHandler.removeReservation();
+			case 1: removeReservation();
 			break;
-			// Calls the print airlines profit method
-			case 2:	System.out.println("The total profit is: " + airlineManager.getProfit());
+			// Calls and displays the airlines income method
+			case 2:JOptionPane.showMessageDialog(null, "The total income is: " + airlineManager.getIncome() + " SEK", "Income", JOptionPane.INFORMATION_MESSAGE);
+			break;
+			// Calls and displays the airlines profit method
+			case 3:	JOptionPane.showMessageDialog(null, "The total profit is: " + airlineManager.getProfit() + " SEK", "Profit", JOptionPane.INFORMATION_MESSAGE);
 			break;
 			// Back to main menu
-			case 3:	choice = false;
+			case 4: choice = false;
 			break;
+			default: return;
 			}
 		}
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-	@Override
-	public double getProfit() {
-
-		return capacity;
-	}
 	/**
 	 * Prompts the user for inputs and removes the passenger with the specified name
 	 */
 	public void removeReservation()
 	{
-		reservationID = Integer.parseInt(JOptionPane.showInputDialog("What's the ID of the passenger you would like to remove?"));
-		Boolean isBooked = super.removeReservation(reservationID);
+		boolean choice = true;
+
+		while (choice == true) {
+			String option = JOptionPane.showInputDialog(null, "What's the ID of the passenger you would like to remove?", "Remove Reservation", JOptionPane.INFORMATION_MESSAGE);
+
+			if (option == null) {
+				//Leave without doing anything if cancel is pressed.
+				choice = false;
+			}
+			else if(option.equals("")) {
+				JOptionPane.showMessageDialog(null, "Please input a valid number.");
+			}
+			else{
+				try {
+					reservationID = Integer.parseInt(option);
+					reservationID = Integer.parseInt(option);
+					Boolean isBooked = airlineManager.removeReservation(reservationID);
 
 
-		if (isBooked == false) {
-			JOptionPane.showMessageDialog(null, "Reservation was not found");
+					if (isBooked == false) {
+						JOptionPane.showMessageDialog(null, "Reservation was not found");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Reservation removed");
+					}
+					choice = false;
+				}
+				catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Please input a valid number.");
+				}
+			}
 		}
-		else {
-			JOptionPane.showMessageDialog(null, "Reservation removed");
-		}
-
 	}
 
 	/**
@@ -144,20 +125,14 @@ public class UI extends AirlineManager {
 
 
 			JTextField name = new JTextField();
-			ArrayList<String> locationList = null;
+			ArrayList<String> locationList = new ArrayList<>();
 			SeatType seatType = null;
 			// Name, Location, Destination in combobox
-			ConcurrentSkipListMap<FoodItem, Integer> foodMap;
+			HashMap<FoodItem, Integer> foodMap = null;
 			boolean choice = true;
-			String[] availableLocations = locationList.toArray(new String[locationList.size()]);
 			String[] currentClass={"Business","Economy"};
 			String selectedFlights;
-			JComboBox cmbClass = new JComboBox(currentClass);
-			JComboBox cmbAvailableFlights = new JComboBox(availableLocations);
-
-
-			// name: Stockholm->Oslo
-
+			JComboBox<String> cmbClass = new JComboBox<>(currentClass);
 
 
 			for(String airplane : airlineManager.getAvailibleFlights())
@@ -166,7 +141,8 @@ public class UI extends AirlineManager {
 				locationList.add( airplane.toString() );
 			}
 
-
+			String[] availableLocations = locationList.toArray(new String[locationList.size()]);
+			JComboBox<String> cmbAvailableFlights = new JComboBox<>(availableLocations);
 
 
 			Object[] message = {
@@ -180,7 +156,7 @@ public class UI extends AirlineManager {
 					// Asks if you would like to order food if yes do nothing and continue with the method
 					try {
 						// If name or selected flights box is empty throw an expection and return to the menu
-						if(name.getText() == null || cmbAvailableFlights.getSelectedItem() == null)
+						if(name.getText().equals(""))
 						{
 							throw new NullPointerException();
 						}
@@ -204,6 +180,12 @@ public class UI extends AirlineManager {
 
 			}
 
+			if (String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("BUSINESS")) {
+				seatType = SeatType.BUISNESS_SEAT;
+			}
+			else if(String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("ECONOMY")) {
+				seatType = SeatType.ECONOMY_SEAT;
+			}
 
 
 
@@ -212,34 +194,57 @@ public class UI extends AirlineManager {
 			// Do you want to order food? YES NO?
 
 			int reply = JOptionPane.showConfirmDialog(null, "Do you want to order food?", "Order food", JOptionPane.YES_NO_OPTION);
+
 			if (reply == JOptionPane.YES_OPTION) {
 				// Open food menu based on what class the seat was selected
-				if (String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("BUSINESS")) {
-					seatType = SeatType.BUISNESS_SEAT;
-				}
-				else if(String.valueOf(cmbClass.getSelectedItem()).toUpperCase(Locale.ENGLISH).equals("ECONOMY")) {
-					seatType = SeatType.ECONOMY_SEAT;
-				}
 				foodMap = orderFood(seatType);
+				//orderFood returns null when the user is supposed to go back to the main menu
+				if (foodMap == null) {
+					return;
+				}
+			}
+			else if (reply == JOptionPane.NO_OPTION) {
+				// Finish reservation without ordering food
+				foodMap = new HashMap<FoodItem, Integer>();
 			}
 			else {
-				// Finish reservation without ordering
-				// TODO if user does not want to order food add reservation with empty foodMap
 				return;
 			}
 
 			selectedFlights = String.valueOf(cmbAvailableFlights.getSelectedItem());
 
-			// airlineManager.getSeatPrice(SeatType.valueOf(cmbClass.getSelectedItem().toUpperCase(Locale.ENGLISH)))
-			seatType = SeatType.valueOf(String.valueOf(cmbClass.getSelectedItem()));
+			// Confirmation screen
 
 
+			// MESSAGE
+
+			String confirmationMessage = "Name: " + name.getText() + " \n" + "Flight: " + selectedFlights + " \n" + "Seat type: " + seatType.toString() + " \n";
+			double reservationCost = airlineManager.getSeatPrice(seatType);
+			for(FoodItem foodItem : foodMap.keySet()) {
+				if(foodMap.get(foodItem) > 0) {
+					confirmationMessage += foodMap.get(foodItem) + " " + foodItem.getName() + " \n";
+					reservationCost += foodMap.get(foodItem) * foodItem.getPrice();
+				}
+			}
+			confirmationMessage += "Cost: " + reservationCost;
+
+			int option = JOptionPane.showConfirmDialog(null, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+
+
+
+			if (option == 0) {
+				// If the user presses yes, do nothing
+			}
+			else {
+				// If the user presses something else, return to menu
+				return;
+			}
 
 
 
 			// Adds reservation
 
-			int canBeReserved = super.addReservation(selectedFlights.substring(0, selectedFlights.indexOf(' ')), name.getText(), seatType, foodMap);
+			int canBeReserved = airlineManager.addReservation(selectedFlights, name.getText(), seatType, foodMap);
 
 
 			if (canBeReserved < 0) {
@@ -247,15 +252,20 @@ public class UI extends AirlineManager {
 				return;
 			}
 			if (canBeReserved >= 0) {
-				JOptionPane.showMessageDialog(null, "Reservation was added");
+				//TODO also display the ID number and total cost for the reservation
+				JOptionPane.showMessageDialog(null, "Reservation was added\nThe ID number for your reservation is: " + canBeReserved + "\nCost: " + reservationCost + " SEK", "Receipt", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 
 
 	}
 
-
-	public ConcurrentSkipListMap<FoodItem, Integer> orderFood(SeatType seatType) {
+/**
+ * Returns null when the user is supposed to go back to the main menu
+ * @param seatType
+ * @return
+ */
+	public HashMap<FoodItem, Integer> orderFood(SeatType seatType) {
 
 		// Creates text fields
 		boolean choice = true;
@@ -264,52 +274,42 @@ public class UI extends AirlineManager {
 		Object[] message = new Object[foodArray.length * 2];
 		JTextField[] foodFieldNames = new JTextField[foodArray.length];
 		for (int i = 0; i < message.length; i+=2){
-			// Divides the index used for foodFieldNames with two because the for loop increments with two each time.
-			foodFieldNames[i/2]  = new JTextField();
-			message[i] = foodArray[i].getName() + " , " + foodArray[i].getPrice() + " SEK";
-			message[i + 1] = i;
+			// Divides the index used for foodFieldNames and foodArray with two because the for loop increments with two each time.
+			//foodFieldNames[i/2]  = new JTextField();
+			message[i] = foodArray[i/2].getName() + " , " + foodArray[i/2].getPrice() + " SEK";
+			message[i + 1] = new JTextField();
 		}
 
 
 		// Loop will run forever until the user gives valid input.
+		HashMap<FoodItem, Integer> foodMap = new HashMap<>();
 		while (choice == true) {
 
 			int option = JOptionPane.showConfirmDialog(null, message, "Order food", JOptionPane.OK_CANCEL_OPTION);
-			//TODO check that 0 really is this
 			if (option == 0) {
-				ConcurrentSkipListMap<FoodItem, Integer> foodMap = new ConcurrentSkipListMap<>();
 				try {
 					addFoodItemsToMap(foodMap, message, foodArray);
+					choice = false;
 				}
 				catch ( NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Must input a valid number");
 				}
-				return foodMap;
-
 			}
-
+			else {
+				return null;
+			}
 		}
-		return null;
-
-
-
-
-		// For each textfield add to map
-		// Map<FoodItem, Integer> foodMap
-
-
-
-
+		return foodMap;
 	}
 
 
-	public void addFoodItemsToMap(ConcurrentSkipListMap<FoodItem, Integer> foodMap, Object[] message, FoodItem[] foodArray) throws NumberFormatException {
+	public void addFoodItemsToMap(HashMap<FoodItem, Integer> foodMap, Object[] message, FoodItem[] foodArray) throws NumberFormatException {
 
 
 		for (int i = 0; i < message.length; i+=2){
 			// Goes through each textfield created and adds value to map
-			String quantityString = String.valueOf(((JComboBox) message[i + 1]).getSelectedItem() );
-			if (quantityString == null) {
+			String quantityString = ((JTextField) message[i + 1]).getText();
+			if (quantityString.equals("")) {
 				quantityString = "0";
 			}
 			Integer quantity = Integer.parseInt(quantityString);
@@ -318,7 +318,7 @@ public class UI extends AirlineManager {
 				throw new NumberFormatException();
 			}
 
-			foodMap.put(foodArray[i],  quantity);
+			foodMap.put(foodArray[i/2],  quantity);
 
 
 		}

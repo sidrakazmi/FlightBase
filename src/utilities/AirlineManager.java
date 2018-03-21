@@ -9,8 +9,8 @@ import se.lexicon.model.FoodItem;
 
 public class AirlineManager {
 
-	ArrayList<Airplane> airplanes;
-	ArrayList<Booking> bookings;
+	private ArrayList<Airplane> airplanes = new ArrayList<>();
+	private ArrayList<Booking> bookings = new ArrayList<>();
 
 	/**
 	 * Adds an airplane to the airline's list of airplanes.
@@ -106,10 +106,10 @@ public class AirlineManager {
 	 */
 	public boolean removeReservation(int bookingID) {
 		// booking ID is one larger than the index for the booking.
-		if (bookingID < 0 || bookingID > bookings.size() + 1) {
+		if (bookingID < 0 || bookingID > bookings.size() - 1) {
 			return false;
 		}
-		bookings.remove(bookingID - 1);
+		bookings.remove(bookingID);
 		return true;
 	}
 
