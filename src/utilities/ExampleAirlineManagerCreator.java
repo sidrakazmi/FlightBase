@@ -4,7 +4,7 @@ import se.lexicon.model.Airplane;
 
 public class ExampleAirlineManagerCreator {
 
-	/*
+	/**
 	 * Returns an AirlineManager with some added airplanes.
 	 */
 	public static AirlineManager createExampleAirlineManager() {

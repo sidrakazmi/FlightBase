@@ -6,34 +6,38 @@ public class Airplane{
 	
 	private boolean isFlying;
 	
-	private int maxBussinessClassSeat;
+	private int maxBusinessClassSeat;
 	private int maxEconomyClassSeat;
 	
-	private int noOfReservedBussinessSeats;
+	private int noOfReservedBusinessSeats;
 	private int noOfReservedEconomySeats;
 	
-	private int noOfAvaiableBussinessSeats;
+	private int noOfAvaiableBusinessSeats;
 	private int noOfAvaiableEconomySeats;
 	
 	private String planeName;
 	private String location;
 	private String destination;
 	
-	
+	/**
+	 * Constructor 
+	 **/
 	public Airplane(int maxBussinessClassSeat, int maxEconomyClassSeat, String planeName, String location,
 			String destination) {
 	
-		this.maxBussinessClassSeat = maxBussinessClassSeat;
+		this.maxBusinessClassSeat = maxBussinessClassSeat;
 		this.maxEconomyClassSeat = maxEconomyClassSeat;
 		this.planeName = planeName;
 		this.location = location;
 		this.destination = destination;
-		noOfReservedBussinessSeats=0;
+		noOfReservedBusinessSeats=0;
 		noOfReservedEconomySeats=0;
 		isFlying = false;
 	}
 
-	
+	/**
+	 * Returns the status of a Flight
+	 **/
 	public boolean isIsflying() {
 		return isFlying;
 	}
@@ -46,22 +50,23 @@ public class Airplane{
 		return location;
 	}
 
-
 	public String getDestination() {
 		return destination;
 	}
-
 
 	@Override
 	public String toString() {
 		return planeName + ": " + location + "->" + destination;
 	}
 
-	
+	/**
+	 * Calculates and returns the number of Available seats in Economy/Business class 
+	 * @param Seat Type: Economy or Business
+	 **/
 	public int getNumberOfAvaiableSeats(SeatType seatType) {
 		if(seatType == SeatType.BUISNESS_SEAT) {
-			noOfAvaiableBussinessSeats= maxBussinessClassSeat - noOfReservedBussinessSeats;
-			return noOfAvaiableBussinessSeats;
+			noOfAvaiableBusinessSeats= maxBusinessClassSeat - noOfReservedBusinessSeats;
+			return noOfAvaiableBusinessSeats;
 		}
 		else {
 			if(seatType == SeatType.ECONOMY_SEAT) {
@@ -72,15 +77,20 @@ public class Airplane{
 	}
 
 	}
-
+	
+	/**
+	 * Reserves a seat in Economy/Business class 
+	 * Checks the seat type and if any seats available to book
+	 * @param Seat Type: Economy or Business
+	 **/
 	public int bookSeat(SeatType seatType) {
 		
-		if(seatType == SeatType.BUISNESS_SEAT && noOfAvaiableBussinessSeats<maxBussinessClassSeat) 
+		if(seatType == SeatType.BUISNESS_SEAT && noOfAvaiableBusinessSeats<maxBusinessClassSeat) 
 		
 	   {
-			noOfReservedBussinessSeats++;
+			noOfReservedBusinessSeats++;
 			takeFlightIfThePlaneIsFull();
-			return noOfReservedBussinessSeats;
+			return noOfReservedBusinessSeats;
 		}
 		
 		
@@ -97,13 +107,16 @@ public class Airplane{
 		
 	}
 	
-
-	
+	/**
+	 * Cancels a booking in Economy/Business class 
+	 * Checks the seat type and if any reservation available to remove
+	 * @param Seat Type: Economy or Business
+	 **/	
 	public boolean removeSeat(SeatType seatType) {
-		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBussinessSeats>0) 
+		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBusinessSeats>0) 
 			
 		   {
-				noOfReservedBussinessSeats--;
+				noOfReservedBusinessSeats--;
 				return true;
 			}
 			
@@ -120,10 +133,13 @@ public class Airplane{
 			
 		}
 	
-	
-	/* Threading methods */
+	/**
+	 * Checks if all the seats in Economy and Business class are reserved 
+	 * Sends the Airplane off to flight
+	 * Waits for 2 minutes before sending the next plane to Flight
+	 **/	
 	public void takeFlightIfThePlaneIsFull() {
-		if (noOfReservedBussinessSeats==maxBussinessClassSeat  &&  noOfReservedEconomySeats==maxEconomyClassSeat) {
+		if (noOfReservedBusinessSeats==maxBusinessClassSeat  &&  noOfReservedEconomySeats==maxEconomyClassSeat) {
 	        isFlying = true;
 	        Airplane thisAirplane = this;
 	       
@@ -148,9 +164,11 @@ public class Airplane{
 		
 	}
 
-
+	/**
+	 * When a plane arrives resets its status 
+	 **/	
 	private void arrive() {
-		noOfReservedBussinessSeats=0;
+		noOfReservedBusinessSeats=0;
 		noOfReservedEconomySeats=0;
 		isFlying = false;
 	}
