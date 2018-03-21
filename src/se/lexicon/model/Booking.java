@@ -15,6 +15,10 @@ public class Booking {
 	private SeatType seatType;
 	public static Map< FoodItem, Integer> foodItems;
 	
+	
+	/**
+	 * Constructor 
+	 **/
 	public Booking(int id, String passengerName, String location, String destination, String airplaneName, double cost,
 			int seatNo, SeatType seatType, Map<FoodItem, Integer> foodMap) {
 		
@@ -35,7 +39,9 @@ public class Booking {
 				+ destination + ", airplaneName=" + airplaneName + ", cost=" + cost + ", seatNo=" + seatNo
 				+ ", seatType=" + seatType + "]";
 	}
-
+	/**
+	 * Returns the Cost of Booking
+	 **/
 	public double getCost() {
 		return cost;
 	}
