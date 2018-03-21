@@ -12,15 +12,15 @@ public class AirlineManager {
 	ArrayList<Airplane> airplanes;
 	ArrayList<Booking> bookings;
 
-	/*
+	/**
 	 * Adds an airplane to the airline's list of airplanes.
 	 */
 	public void addAirplane(Airplane airplane) {
 		airplanes.add(airplane);
 	}
 
-	/*
-	 * Removes the airplane corresponding to airplaneIndex from the airline's list
+	/**
+	 * Removes the airplane corresponding to @param airplaneIndex from the airline's list
 	 * of airplanes. Returns true if successful and returns false if no plane
 	 * corresponding to airplaneIndex was found.
 	 */
@@ -33,7 +33,7 @@ public class AirlineManager {
 		}
 	}
 
-	/*
+	/**
 	 * Returns true if an airplane (for which the toString method returns a String
 	 * equal to the given airplane argument) has at least one available seat of
 	 * seatType. Returns false if no such free seat exists or if no such airplane is
@@ -51,7 +51,7 @@ public class AirlineManager {
 		return false;
 	}
 
-	/*
+	/**
 	 * Returns an ArrayList of toStrings for each available airplane
 	 */
 	public ArrayList<String> getAvailibleFlights() {
@@ -65,7 +65,7 @@ public class AirlineManager {
 		return availibleFlightsList;
 	}
 
-	/*
+	/**
 	 * Attempts to add a reservation for one airplanes for which toString returns a
 	 * String equal to the given first String argument. The foodMap parameter should
 	 * consist of a map between FoodItems and the desired number of that FoodItem.
@@ -99,7 +99,7 @@ public class AirlineManager {
 		return -1;
 	}
 
-	/*
+	/**
 	 * Removes a reservation corresponding to the booking ID. Returns true if the
 	 * reservation was found and removed. Returns false if the reservation wasn't
 	 * found.
@@ -113,7 +113,7 @@ public class AirlineManager {
 		return true;
 	}
 
-	/*
+	/**
 	 * Returns an array of the FoodItems for the menu corresponding to seatType.
 	 */
 	public FoodItem[] getMenu(SeatType seatType) {
@@ -124,7 +124,7 @@ public class AirlineManager {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the total income of the airline.
 	 */
 	public double getIncome() {
@@ -135,7 +135,7 @@ public class AirlineManager {
 		return income;
 	}
 
-	/*
+	/**
 	 * Returns the profit made by the airline.
 	 */
 	public double getProfit() {
@@ -144,7 +144,7 @@ public class AirlineManager {
 		return profit;
 	}
 
-	/*
+	/**
 	 * Returns the price of a seat corresponding to seatType.
 	 */
 	public double getSeatPrice(SeatType seatType) {
