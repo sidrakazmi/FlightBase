@@ -19,7 +19,9 @@ public class Airplane{
 	private String location;
 	private String destination;
 	
-	
+	/**
+	 * Constructor 
+	 **/
 	public Airplane(int maxBussinessClassSeat, int maxEconomyClassSeat, String planeName, String location,
 			String destination) {
 	
@@ -33,7 +35,9 @@ public class Airplane{
 		isFlying = false;
 	}
 
-	
+	/**
+	 * Returns the status of a Flight
+	 **/
 	public boolean isIsflying() {
 		return isFlying;
 	}
@@ -57,7 +61,10 @@ public class Airplane{
 		return planeName + ": " + location + "->" + destination;
 	}
 
-	
+	/**
+	 * Calculates and returns the number of Available seats in Economy/Business class 
+	 * @param Seat Type: Economy or Business
+	 **/
 	public int getNumberOfAvaiableSeats(SeatType seatType) {
 		if(seatType == SeatType.BUISNESS_SEAT) {
 			noOfAvaiableBussinessSeats= maxBussinessClassSeat - noOfReservedBussinessSeats;
@@ -72,7 +79,11 @@ public class Airplane{
 	}
 
 	}
-
+	/**
+	 * Reserves a seat in Economy/Business class 
+	 * Checks the seat type and if any seats available to book
+	 * @param Seat Type: Economy or Business
+	 **/
 	public int bookSeat(SeatType seatType) {
 		
 		if(seatType == SeatType.BUISNESS_SEAT && noOfAvaiableBussinessSeats<maxBussinessClassSeat) 
@@ -98,7 +109,11 @@ public class Airplane{
 	}
 	
 
-	
+	/**
+	 * Cancels a booking in Economy/Business class 
+	 * Checks the seat type and if any reservation available to remove
+	 * @param Seat Type: Economy or Business
+	 **/	
 	public boolean removeSeat(SeatType seatType) {
 		if(seatType == SeatType.BUISNESS_SEAT && noOfReservedBussinessSeats>0) 
 			
@@ -121,7 +136,11 @@ public class Airplane{
 		}
 	
 	
-	/* Threading methods */
+	/**
+	 * Checks if all the seats in Economy and Business class are reserved 
+	 * Sends the Airplane off to flight
+	 * Waits for 2 minutes before sending the next plane to Flight
+	 **/
 	public void takeFlightIfThePlaneIsFull() {
 		if (noOfReservedBussinessSeats==maxBussinessClassSeat  &&  noOfReservedEconomySeats==maxEconomyClassSeat) {
 	        isFlying = true;
@@ -148,7 +167,9 @@ public class Airplane{
 		
 	}
 
-
+	/**
+	 * When a plane arrives resets its status 
+	 **/
 	private void arrive() {
 		noOfReservedBussinessSeats=0;
 		noOfReservedEconomySeats=0;
