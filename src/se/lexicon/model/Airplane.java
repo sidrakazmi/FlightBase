@@ -206,6 +206,11 @@ public class Airplane {
 	private void arrive() {
 		noOfReservedBussinessSeats = 0;
 		noOfReservedEconomySeats = 0;
+		//Change location to destination and change destination to location.
+		String tempLocation = location;
+		location = destination;
+		destination = tempLocation;
+		
 		isFlying = false;
 	}
 }
