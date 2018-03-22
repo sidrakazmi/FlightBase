@@ -8,7 +8,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import se.lexicon.model.Booking;
 import se.lexicon.model.FoodItem;
 import se.lexicon.utilities.AirlineManager;
 import se.lexicon.utilities.SeatType;
@@ -22,16 +21,10 @@ import se.lexicon.utilities.SeatType;
  */
 public class UI {
 
-	protected int reservationID;
-	protected int capacity = 0;
-	static int response = 0;
-	static String[] options = null;
-	protected String name = null;
-	protected String email = null;
-	protected String adress = null;
-	protected String airlineName = null;
-	protected Booking reservation = null;
-	protected AirlineManager airlineManager = null;
+	private int reservationID;
+	private int response = 0;
+	private String[] options = null;
+	private AirlineManager airlineManager = null;
 
 	public UI() {
 	}
@@ -84,7 +77,7 @@ public class UI {
 	/**
 	 * Prompts the user for inputs and removes the passenger with the specified ID
 	 */
-	public void removeReservation() {
+	private void removeReservation() {
 		boolean choice = true;
 
 		while (choice == true) {
@@ -118,7 +111,7 @@ public class UI {
 	/**
 	 * Calls the reservation menu
 	 */
-	public void addReservation() {
+	private void addReservation() {
 		JTextField name = new JTextField();
 		ArrayList<String> locationList = new ArrayList<>();
 		SeatType seatType = null;
@@ -160,7 +153,6 @@ public class UI {
 		}
 		selectedFlights = String.valueOf(cmbAvailableFlights.getSelectedItem());
 
-
 		// Check if the user wants to switch seats if the current seat type is full.
 		seatType = checkIfSeatIsFull(seatType, selectedFlights);
 		if (seatType == null) {
@@ -187,9 +179,10 @@ public class UI {
 	 *            Name of the reservation
 	 * @param message
 	 *            Object array with JTextFields
-	 * @return r State of what button was pressed. 1 = OK, 2 = Cancel, 0 = User did not write in a name when pressing OK
+	 * @return r State of what button was pressed. 1 = OK, 2 = Cancel, 0 = User did
+	 *         not write in a name when pressing OK
 	 */
-	public int chooseFlightMenu(JTextField name, Object[] message) {
+	private int chooseFlightMenu(JTextField name, Object[] message) {
 		int option = JOptionPane.showConfirmDialog(null, message, "Reservation", JOptionPane.OK_CANCEL_OPTION);
 		int r = 0;
 		try {
@@ -223,13 +216,14 @@ public class UI {
 	 * @param seatType
 	 *            The seat type of the reservation. Can be either ECONOMY_SEAT or
 	 *            BUSINESS_SEAT
-	 * @param selectedFlights
+	 * @param selectedFlight
+	 *            Flight to check for
 	 * @return seatType The seat type of the reservation. Can be either ECONOMY_SEAT
 	 *         or BUSINESS_SEAT
 	 */
-	public SeatType checkIfSeatIsFull(SeatType seatType, String selectedFlights) {
+	private SeatType checkIfSeatIsFull(SeatType seatType, String selectedFlight) {
 
-		if (!airlineManager.hasAvailibleSeat(selectedFlights, seatType)) {
+		if (!airlineManager.hasAvailibleSeat(selectedFlight, seatType)) {
 			int option;
 			if (seatType == SeatType.BUSINESS_SEAT) {
 				option = JOptionPane.showConfirmDialog(null,
@@ -261,7 +255,7 @@ public class UI {
 	 * @return foodMap A map between FoodItems and the ordered number of that
 	 *         FoodItem.
 	 */
-	public HashMap<FoodItem, Integer> orderFoodOption(SeatType seatType, HashMap<FoodItem, Integer> foodMap) {
+	private HashMap<FoodItem, Integer> orderFoodOption(SeatType seatType, HashMap<FoodItem, Integer> foodMap) {
 
 		int reply = JOptionPane.showConfirmDialog(null, "Do you want to order food?", "Order food",
 				JOptionPane.YES_NO_OPTION);
@@ -297,7 +291,7 @@ public class UI {
 	 * @param foodMap
 	 *            A map between FoodItems and the ordered number of that FoodItem.
 	 */
-	public void confirmReservation(JTextField name, String selectedFlights, SeatType seatType,
+	private void confirmReservation(JTextField name, String selectedFlights, SeatType seatType,
 			HashMap<FoodItem, Integer> foodMap) {
 
 		int option;
@@ -337,7 +331,7 @@ public class UI {
 	 * @return foodMap A map between FoodItems and the ordered number of that
 	 *         FoodItem.
 	 */
-	public HashMap<FoodItem, Integer> orderFood(SeatType seatType) {
+	private HashMap<FoodItem, Integer> orderFood(SeatType seatType) {
 
 		// Creates text fields
 		boolean choice = true;
@@ -377,10 +371,11 @@ public class UI {
 	 * @param message
 	 *            Object array with JTextFields
 	 * @param foodArray
-	 *            Array with fooditems
+	 *            Array with foodItems
 	 * @throws NumberFormatException
+	 *             Exception if user inputs quantity less than zero
 	 */
-	public void addFoodItemsToMap(HashMap<FoodItem, Integer> foodMap, Object[] message, FoodItem[] foodArray)
+	private void addFoodItemsToMap(HashMap<FoodItem, Integer> foodMap, Object[] message, FoodItem[] foodArray)
 			throws NumberFormatException {
 
 		for (int i = 0; i < message.length; i += 2) {

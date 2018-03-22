@@ -4,7 +4,7 @@ import se.lexicon.utilities.SeatType;
 
 /**
  * A class, the objects of which represents airplanes.
- * 
+ *
  * @author Sidra Ali Kazmi
  * @author Linus Karlbom
  */
@@ -23,9 +23,9 @@ public class Airplane {
 	private String destination;
 
 	/**
-	 * 
+	 *
 	 * Constructs an Airplane object using the provided parameters
-	 * 
+	 *
 	 * @param maxBusinessClassSeat
 	 *            the number of business class seats for the Airplane object.
 	 * @param maxEconomyClassSeat
@@ -37,10 +37,10 @@ public class Airplane {
 	 * @param destination
 	 *            the destination to which the Airplane object will fly.
 	 */
-	public Airplane(int maxBussinessClassSeat, int maxEconomyClassSeat, String planeName, String location,
+	public Airplane(int maxBusinessClassSeat, int maxEconomyClassSeat, String planeName, String location,
 			String destination) {
 
-		this.maxBusinessClassSeat = maxBussinessClassSeat;
+		this.maxBusinessClassSeat = maxBusinessClassSeat;
 		this.maxEconomyClassSeat = maxEconomyClassSeat;
 		this.planeName = planeName;
 		this.location = location;
@@ -52,7 +52,7 @@ public class Airplane {
 
 	/**
 	 * Checks if the Airplane object is flying.
-	 * 
+	 *
 	 * @return true if the Airplane is flying, false otherwise.
 	 */
 	public boolean isIsflying() {
@@ -91,7 +91,7 @@ public class Airplane {
 
 	/**
 	 * Calculates the number of available seats for the Airplane object.
-	 * 
+	 *
 	 * @param seatType
 	 *            the type of seat to check for. Can be either ECONOMY_SEAT or
 	 *            BUSINESS_SEAT.
@@ -114,12 +114,12 @@ public class Airplane {
 	/**
 	 * Attempt to reserve a seat. Succeeds if an available seat of the right seat
 	 * type exists.
-	 * 
-	 * @param the
-	 *            type of seat to book for. Can be either ECONOMY_SEAT or
+	 *
+	 * @param seatType
+	 *            the type of seat to book for. Can be either ECONOMY_SEAT or
 	 *            BUSINESS_SEAT.
 	 * @return seat number(which is positive or zero) if the reservation was
-	 *         successful. Returns a negative number if the reservation failed.
+	 *         successful. Returns a negative number if the reservation failed
 	 */
 	public int bookSeat(SeatType seatType) {
 
@@ -145,7 +145,7 @@ public class Airplane {
 	/**
 	 * Attempts to remove a reservation. Succeeds if there is a reservation of the
 	 * right seat type to remove.
-	 * 
+	 *
 	 * @param seatType
 	 *            the type of the reservation to remove. Can be either ECONOMY_SEAT
 	 *            or BUSINESS_SEAT.
@@ -170,8 +170,10 @@ public class Airplane {
 	}
 
 	/**
-	 * Checks if all the seats in Economy and Business class are reserved. If all of them are reserved, sends the
-	 * Airplane off to flight for two minutes and prints some messages about this process. Removes all seat reservations after the two minutes have passed.
+	 * Checks if all the seats in Economy and Business class are reserved. If all of
+	 * them are reserved, sends the Airplane off to flight for two minutes and
+	 * prints some messages about this process. Removes all seat reservations after
+	 * the two minutes have passed.
 	 */
 	public void takeFlightIfThePlaneIsFull() {
 		if (noOfReservedBussinessSeats == maxBusinessClassSeat && noOfReservedEconomySeats == maxEconomyClassSeat) {
@@ -198,7 +200,8 @@ public class Airplane {
 	}
 
 	/**
-	 * Removes all reservations for the Airplane object and sets its isFlying status to false.
+	 * Removes all reservations for the Airplane object and sets its isFlying status
+	 * to false.
 	 */
 	private void arrive() {
 		noOfReservedBussinessSeats = 0;
