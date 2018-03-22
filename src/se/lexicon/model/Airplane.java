@@ -3,7 +3,7 @@ package se.lexicon.model;
 import utilities.SeatType;
 
 /**
- * A class, the objects of which represents airplane.
+ * A class, the objects of which represents airplanes.
  * 
  * @author Sidra Ali Kazmi
  * @author Linus Karlbom
