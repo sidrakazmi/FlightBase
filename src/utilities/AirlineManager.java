@@ -7,22 +7,37 @@ import se.lexicon.model.Airplane;
 import se.lexicon.model.Booking;
 import se.lexicon.model.FoodItem;
 
+/**
+ * A class, the objects of which manages lists of Airplane and Booking objects.
+ * 
+ * @author Linus Karlbom
+ * @author Daniel Axelsson
+ * @author Sidra Ali Kazmi
+ */
 public class AirlineManager {
 
 	private ArrayList<Airplane> airplanes = new ArrayList<>();
 	private ArrayList<Booking> bookings = new ArrayList<>();
 
 	/**
-	 * Adds an airplane to the airline's list of airplanes.
+	 * Adds an Airplane object to the AirlineManager's list of airplanes.
+	 * 
+	 * @param airplane
+	 *            the Airplane object to add.
 	 */
 	public void addAirplane(Airplane airplane) {
 		airplanes.add(airplane);
 	}
 
 	/**
-	 * Removes the airplane corresponding to @param airplaneIndex from the airline's list
-	 * of airplanes. Returns true if successful and returns false if no plane
-	 * corresponding to airplaneIndex was found.
+	 * Removes the airplane corresponding to the parameter airplaneIndex from the
+	 * AirlineManager's list of airplanes. Returns true if successful and returns
+	 * false if no plane corresponding to airplaneIndex was found.
+	 * 
+	 * @param airplaneIndex
+	 *            the index corresponding to the Airplane to remove.
+	 * @return true if successful and false if no plane corresponding to
+	 *         airplaneIndex was found.
 	 */
 	public boolean removeAirplane(int airplaneIndex) {
 		try {
@@ -34,10 +49,15 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Returns true if an airplane (for which the toString method returns a String
-	 * equal to the given airplane argument) has at least one available seat of
-	 * seatType. Returns false if no such free seat exists or if no such airplane is
-	 * found.
+	 * Checks if any Airplane (for which the toString method returns a String equal
+	 * to the given airplane argument) has at least one available seat of seatType.
+	 * 
+	 * @param airplane
+	 *            a String matching the toString result of the desired Airplane object.
+	 * @param seatType
+	 *            The seat type of the checked for seat. Can be either ECONOMY_SEAT
+	 *            or BUSINESS_SEAT.
+	 * @return true if a matching Airplane has available seats and false otherwise.
 	 */
 	public boolean hasAvailibleSeat(String airplane, SeatType seatType) {
 
@@ -52,7 +72,9 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Returns an ArrayList of toStrings for each available airplane
+	 * Checks which Airplane objects are available for flight.
+	 * 
+	 * @return an ArrayList of toString results for each available airplane.
 	 */
 	public ArrayList<String> getAvailibleFlights() {
 		ArrayList<String> availibleFlightsList = new ArrayList<String>();
@@ -66,11 +88,22 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Attempts to add a reservation for one airplanes for which toString returns a
-	 * String equal to the given first String argument. The foodMap parameter should
+	 * Attempts to add a reservation to one Airplane.The foodMap parameter should
 	 * consist of a map between FoodItems and the desired number of that FoodItem.
 	 * Returns Booking ID if successful. Returns a negative number if the
 	 * reservation failed.
+	 * 
+	 * @param airplane
+	 *            a String equal to the toString result for the desired Airplane object.
+	 * @param name
+	 *            the name of the one making the reservation.
+	 * @param seatType
+	 *            the seat type of the reservation. Can be either ECONOMY_SEAT or
+	 *            BUSINESS_SEAT.
+	 * @param foodMap
+	 *            a map between FoodItems and the ordered number of that FoodItem.
+	 * @return the booking ID (which is a positive integer) if successful and a
+	 *         negative number if the reservation failed.
 	 */
 	public int addReservation(String airplane, String name, SeatType seatType, Map<FoodItem, Integer> foodMap) {
 		int bookedSeat;
@@ -100,9 +133,12 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Removes a reservation corresponding to the booking ID. Returns true if the
-	 * reservation was found and removed. Returns false if the reservation wasn't
-	 * found.
+	 * Attempts to remove a reservation.
+	 * 
+	 * @param bookingID
+	 *            the booking ID of the reservation to be removed.
+	 * @return true if the reservation was found and removed. False if the
+	 *         reservation wasn't found.
 	 */
 	public boolean removeReservation(int bookingID) {
 		// booking ID is one larger than the index for the booking.
@@ -114,18 +150,21 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Returns an array of the FoodItems for the menu corresponding to seatType.
+	 * Returns a menu corresponding to a seat type.
+	 * 
+	 * @param seatType
+	 *            the seat type for the sought menu. Can be either ECONOMY_SEAT or
+	 *            BUSINESS_SEAT.
+	 * @return an array of FoodItems.
 	 */
 	public FoodItem[] getMenu(SeatType seatType) {
-		if (seatType == SeatType.BUSINESS_SEAT) {
-			return Menus.getBusinessMenuCopy();
-		} else {
-			return Menus.getEconomyMenuCopy();
-		}
+		return Menus.getMenuCopy(seatType);
 	}
 
 	/**
-	 * Returns the total income of the airline.
+	 * Calculates the total income of the AirlineManager.
+	 * 
+	 * @return a double containing the calculated income.
 	 */
 	public double getIncome() {
 		double income = 0;
@@ -136,7 +175,10 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Returns the profit made by the airline.
+	 * Calculates the total profit of the AirlineManager. The profit is equal to 30%
+	 * of the AirlineManager's income.
+	 * 
+	 * @return a double containing the calculated profit.
 	 */
 	public double getProfit() {
 		double profit = getIncome();
@@ -145,7 +187,10 @@ public class AirlineManager {
 	}
 
 	/**
-	 * Returns the price of a seat corresponding to seatType.
+	 * Returns the price of a seat.
+	 * @param seatType the seat type for which to get the price. Can be either ECONOMY_SEAT or
+	 *            BUSINESS_SEAT.
+	 * @return a double containing the price of the seat.
 	 */
 	public double getSeatPrice(SeatType seatType) {
 		return SeatPrices.getPricesForSeatType(seatType);
