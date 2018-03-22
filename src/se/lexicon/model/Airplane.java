@@ -176,21 +176,20 @@ public class Airplane {
 	public void takeFlightIfThePlaneIsFull() {
 		if (noOfReservedBussinessSeats == maxBusinessClassSeat && noOfReservedEconomySeats == maxEconomyClassSeat) {
 			isFlying = true;
-			Airplane thisAirplane = this;
 
 			Thread thread1 = new Thread(() -> {
-				System.out.println(thisAirplane.getPlaneName() + " takes off");
-				System.out.println(thisAirplane.getPlaneName() + " is flying");
+				System.out.println(this.getPlaneName() + " takes off");
+				System.out.println(this.getPlaneName() + " is flying");
 				try {
 					Thread.sleep(120000);
 				} catch (InterruptedException e) {
 					// Ignore
 				}
-				synchronized (thisAirplane) {
-					thisAirplane.arrive();
+				synchronized (this) {
+					this.arrive();
 				}
-				System.out.println(thisAirplane.getPlaneName() + " has arrived");
-				System.out.println(thisAirplane.getPlaneName() + " has refueled");
+				System.out.println(this.getPlaneName() + " has arrived");
+				System.out.println(this.getPlaneName() + " has refueled");
 			});
 			thread1.start();
 
