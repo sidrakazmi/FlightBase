@@ -10,8 +10,8 @@ import javax.swing.JTextField;
 
 import se.lexicon.model.Booking;
 import se.lexicon.model.FoodItem;
-import utilities.AirlineManager;
-import utilities.SeatType;
+import se.lexicon.utilities.AirlineManager;
+import se.lexicon.utilities.SeatType;
 
 /**
  * JOptionPane GUI for the FlightBase application

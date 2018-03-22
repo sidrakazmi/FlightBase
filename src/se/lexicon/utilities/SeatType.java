@@ -1,4 +1,4 @@
-package utilities;
+package se.lexicon.utilities;
 
 /**
  * An enumerated type for the different kinds of seats.

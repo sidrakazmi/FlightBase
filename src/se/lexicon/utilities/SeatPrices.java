@@ -1,4 +1,4 @@
-package utilities;
+package se.lexicon.utilities;
 
 /**
  * Provides a static method for getting seat prices

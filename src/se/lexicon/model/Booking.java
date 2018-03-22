@@ -2,7 +2,7 @@ package se.lexicon.model;
 
 import java.util.Map;
 
-import utilities.SeatType;
+import se.lexicon.utilities.SeatType;
 
 /**
  * A class, the objects of which represents bookings.

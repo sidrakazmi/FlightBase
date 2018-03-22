@@ -1,6 +1,6 @@
 package se.lexicon.model;
 
-import utilities.SeatType;
+import se.lexicon.utilities.SeatType;
 
 /**
  * A class, the objects of which represents airplanes.

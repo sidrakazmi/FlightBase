@@ -1,7 +1,7 @@
 package se.lexicon.application;
 
 import se.lexicon.ui.UI;
-import utilities.ExampleAirlineManagerCreator;
+import se.lexicon.utilities.ExampleAirlineManagerCreator;
 
 /**
  * Provides an entry point for the FlightBase program.

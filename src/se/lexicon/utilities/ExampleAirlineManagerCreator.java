@@ -1,4 +1,4 @@
-package utilities;
+package se.lexicon.utilities;
 
 import se.lexicon.model.Airplane;
 

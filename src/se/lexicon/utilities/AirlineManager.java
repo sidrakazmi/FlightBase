@@ -1,4 +1,4 @@
-package utilities;
+package se.lexicon.utilities;
 
 import java.util.ArrayList;
 import java.util.Map;
