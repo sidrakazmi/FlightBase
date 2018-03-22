@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -25,6 +26,8 @@ public class UI {
 	private int response = 0;
 	private String[] options = null;
 	private AirlineManager airlineManager = null;
+	private final JDialog dialog = new JDialog();
+
 
 	public UI() {
 	}
@@ -35,14 +38,14 @@ public class UI {
 	 *            The AirlineManager object for the user to interact with.
 	 */
 	public void callMainMenu(AirlineManager airlineManager) {
-
+		dialog.setAlwaysOnTop(true);
 		this.airlineManager = airlineManager;
 		boolean choice = true;
 		options = new String[] { "Reserve seat", "Remove reservation", "Get income", "Get profit", "Exit" };
 
 		while (choice == true) {
 
-			response = JOptionPane.showOptionDialog(null, "What would you like to do?", "Main menu",
+			response = JOptionPane.showOptionDialog(dialog, "What would you like to do?", "Main menu",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
 			switch (response) {
@@ -56,12 +59,12 @@ public class UI {
 				break;
 			// Calls and displays the airlines income method
 			case 2:
-				JOptionPane.showMessageDialog(null, "The total income is: " + airlineManager.getIncome() + " SEK",
+				JOptionPane.showMessageDialog(dialog, "The total income is: " + airlineManager.getIncome() + " SEK",
 						"Income", JOptionPane.INFORMATION_MESSAGE);
 				break;
 			// Calls and displays the airlines profit method
 			case 3:
-				JOptionPane.showMessageDialog(null, "The total profit is: " + airlineManager.getProfit() + " SEK",
+				JOptionPane.showMessageDialog(dialog, "The total profit is: " + airlineManager.getProfit() + " SEK",
 						"Profit", JOptionPane.INFORMATION_MESSAGE);
 				break;
 			// Back to main menu
@@ -79,9 +82,10 @@ public class UI {
 	 */
 	private void removeReservation() {
 		boolean choice = true;
+		dialog.setAlwaysOnTop(true);
 
 		while (choice == true) {
-			String option = JOptionPane.showInputDialog(null,
+			String option = JOptionPane.showInputDialog(dialog,
 					"What's the ID of the passenger you would like to remove?", "Remove Reservation",
 					JOptionPane.INFORMATION_MESSAGE);
 
@@ -89,20 +93,20 @@ public class UI {
 				// Leave without doing anything if cancel is pressed.
 				choice = false;
 			} else if (option.equals("")) {
-				JOptionPane.showMessageDialog(null, "Please input a valid number.");
+				JOptionPane.showMessageDialog(dialog, "Please input a valid number.");
 			} else {
 				try {
 					reservationID = Integer.parseInt(option);
 					reservationID = Integer.parseInt(option);
 					Boolean isBooked = airlineManager.removeReservation(reservationID);
 					if (isBooked == false) {
-						JOptionPane.showMessageDialog(null, "Reservation was not found");
+						JOptionPane.showMessageDialog(dialog, "Reservation was not found");
 					} else {
-						JOptionPane.showMessageDialog(null, "Reservation removed");
+						JOptionPane.showMessageDialog(dialog, "Reservation removed");
 					}
 					choice = false;
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Please input a valid number.");
+					JOptionPane.showMessageDialog(dialog, "Please input a valid number.");
 				}
 			}
 		}
@@ -112,6 +116,7 @@ public class UI {
 	 * Calls the reservation menu
 	 */
 	private void addReservation() {
+		dialog.setAlwaysOnTop(true);
 		JTextField name = new JTextField();
 		ArrayList<String> locationList = new ArrayList<>();
 		SeatType seatType = null;
@@ -131,7 +136,7 @@ public class UI {
 		Object[] message = { "Name:", name, "Flights:", cmbAvailableFlights, "Seat type:", cmbClass };
 
 		if (availableLocations == null) {
-			JOptionPane.showMessageDialog(null, "No flights available, please check back later");
+			JOptionPane.showMessageDialog(dialog, "No flights available, please check back later");
 			return;
 		}
 
@@ -183,7 +188,8 @@ public class UI {
 	 *         not write in a name when pressing OK
 	 */
 	private int chooseFlightMenu(JTextField name, Object[] message) {
-		int option = JOptionPane.showConfirmDialog(null, message, "Reservation", JOptionPane.OK_CANCEL_OPTION);
+		dialog.setAlwaysOnTop(true);
+		int option = JOptionPane.showConfirmDialog(dialog, message, "Reservation", JOptionPane.OK_CANCEL_OPTION);
 		int r = 0;
 		try {
 			if (option == 0) {
@@ -203,7 +209,7 @@ public class UI {
 				r = 2;
 			}
 		} catch (NullPointerException e) {
-			JOptionPane.showMessageDialog(null, "Please input a correct value");
+			JOptionPane.showMessageDialog(dialog, "Please input a correct value");
 		}
 		return r;
 
@@ -222,16 +228,17 @@ public class UI {
 	 *         or BUSINESS_SEAT
 	 */
 	private SeatType checkIfSeatIsFull(SeatType seatType, String selectedFlight) {
+		dialog.setAlwaysOnTop(true);
 
 		if (!airlineManager.hasAvailibleSeat(selectedFlight, seatType)) {
 			int option;
 			if (seatType == SeatType.BUSINESS_SEAT) {
-				option = JOptionPane.showConfirmDialog(null,
+				option = JOptionPane.showConfirmDialog(dialog,
 						"The airplane has no free business seats. Would you like to book an economy seat instead?",
 						"No free business seats", JOptionPane.OK_CANCEL_OPTION);
 				seatType = SeatType.ECONOMY_SEAT;
 			} else {
-				option = JOptionPane.showConfirmDialog(null,
+				option = JOptionPane.showConfirmDialog(dialog,
 						"The airplane has no free economy seats. Would you like to book an business seat instead?",
 						"No free economy seats", JOptionPane.OK_CANCEL_OPTION);
 				seatType = SeatType.BUSINESS_SEAT;
@@ -256,8 +263,9 @@ public class UI {
 	 *         FoodItem.
 	 */
 	private HashMap<FoodItem, Integer> orderFoodOption(SeatType seatType, HashMap<FoodItem, Integer> foodMap) {
+		dialog.setAlwaysOnTop(true);
 
-		int reply = JOptionPane.showConfirmDialog(null, "Do you want to order food?", "Order food",
+		int reply = JOptionPane.showConfirmDialog(dialog, "Do you want to order food?", "Order food",
 				JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
 			// Open food menu based on what class the seat was selected
@@ -293,7 +301,7 @@ public class UI {
 	 */
 	private void confirmReservation(JTextField name, String selectedFlights, SeatType seatType,
 			HashMap<FoodItem, Integer> foodMap) {
-
+		dialog.setAlwaysOnTop(true);
 		int option;
 		String confirmationMessage = "Name: " + name.getText() + " \n" + "Flight: " + selectedFlights + " \n"
 				+ "Seat type: " + seatType.toString() + " \n";
@@ -306,7 +314,7 @@ public class UI {
 		}
 		confirmationMessage += "Cost: " + reservationCost;
 
-		option = JOptionPane.showConfirmDialog(null, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+		option = JOptionPane.showConfirmDialog(dialog, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
 
 		if (option == 0) {
 			// If the user presses yes, do nothing
@@ -317,7 +325,7 @@ public class UI {
 
 		// Adds reservation
 		int canBeReserved = airlineManager.addReservation(selectedFlights, name.getText(), seatType, foodMap);
-		JOptionPane.showMessageDialog(null, "Reservation was added\nThe ID number for your reservation is: "
+		JOptionPane.showMessageDialog(dialog, "Reservation was added\nThe ID number for your reservation is: "
 				+ canBeReserved + "\nCost: " + reservationCost + " SEK", "Receipt", JOptionPane.INFORMATION_MESSAGE);
 
 	}
@@ -332,7 +340,7 @@ public class UI {
 	 *         FoodItem.
 	 */
 	private HashMap<FoodItem, Integer> orderFood(SeatType seatType) {
-
+		dialog.setAlwaysOnTop(true);
 		// Creates text fields
 		boolean choice = true;
 		FoodItem[] foodArray = airlineManager.getMenu(seatType);
@@ -348,13 +356,13 @@ public class UI {
 		HashMap<FoodItem, Integer> foodMap = new HashMap<>();
 		while (choice == true) {
 
-			int option = JOptionPane.showConfirmDialog(null, message, "Order food", JOptionPane.OK_CANCEL_OPTION);
+			int option = JOptionPane.showConfirmDialog(dialog, message, "Order food", JOptionPane.OK_CANCEL_OPTION);
 			if (option == 0) {
 				try {
 					addFoodItemsToMap(foodMap, message, foodArray);
 					choice = false;
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Must input a valid number");
+					JOptionPane.showMessageDialog(dialog, "Must input a valid number");
 				}
 			} else {
 				return null;
