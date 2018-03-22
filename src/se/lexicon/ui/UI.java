@@ -30,9 +30,9 @@ public class UI {
 	}
 
 	/**
-	 *
+	 * Main menu method for the application.
 	 * @param airlineManager
-	 *            AirlineManager class
+	 *            The AirlineManager object for the user to interact with.
 	 */
 	public void callMainMenu(AirlineManager airlineManager) {
 
