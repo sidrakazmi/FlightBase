@@ -183,9 +183,10 @@ public class Airplane {
 				System.out.println(this.getPlaneName() + " takes off");
 				System.out.println(this.getPlaneName() + " is flying");
 				try {
+					// thread to sleep for 120000 milliseconds i.e 2 minutes
 					Thread.sleep(120000);
 				} catch (InterruptedException e) {
-					// Ignore
+					 System.out.println(e);
 				}
 				synchronized (this) {
 					this.arrive();
