@@ -313,7 +313,6 @@ public class UI {
 			}
 		}
 		confirmationMessage += "Cost: " + reservationCost;
-
 		option = JOptionPane.showConfirmDialog(dialog, confirmationMessage, "Confirmation", JOptionPane.OK_CANCEL_OPTION);
 
 		if (option == 0) {
